@@ -112,7 +112,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
             'lastName' => 'User',
             'number' => '4111111111111111',
             'expiryMonth' => rand(1, 12),
-            'expiryYear' => date('Y') + rand(1, 5),
+            'expiryYear' => gmdate('Y') + rand(1, 5),
             'cvv' => rand(100, 999),
             'billingAddress1' => '123 Billing St',
             'billingAddress2' => 'Billsville',
