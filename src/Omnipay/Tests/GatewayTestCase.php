@@ -62,12 +62,6 @@ abstract class GatewayTestCase extends TestCase
         $this->assertSame('EUR', $this->gateway->getCurrency());
     }
 
-    public function testPurchase()
-    {
-        // all gateways must implement purchase
-        $this->assertInstanceOf('Omnipay\Common\Message\RequestInterface', $this->gateway->purchase());
-    }
-
     public function testSupportsAuthorize()
     {
         $supportsAuthorize = $this->gateway->supportsAuthorize();
@@ -101,6 +95,18 @@ abstract class GatewayTestCase extends TestCase
             $this->assertInstanceOf('Omnipay\Common\Message\RequestInterface', $this->gateway->capture());
         } else {
             $this->assertFalse(method_exists($this->gateway, 'capture'));
+        }
+    }
+
+    public function testSupportsPurchase()
+    {
+        $supportsPurchase = $this->gateway->supportsPurchase();
+        $this->assertInternalType('boolean', $supportsPurchase);
+
+        if ($supportsPurchase) {
+            $this->assertInstanceOf('Omnipay\Common\Message\RequestInterface', $this->gateway->purchase());
+        } else {
+            $this->assertFalse(method_exists($this->gateway, 'purchase'));
         }
     }
 
