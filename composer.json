@@ -25,7 +25,7 @@
     "autoload": {
         "psr-0": { "Omnipay\\Tests\\" : "src/" }
     },
-    "require": {
+    "require-dev": {
         "guzzle/plugin-mock": "~3.1",
         "mockery/mockery": "~0.8",
         "phpunit/phpunit": "~3.7.0",
