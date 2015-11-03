@@ -28,7 +28,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
      * Converts a string to camel case
      *
      * @param string $str
-     * @return mixed
+     * @return string
      */
     public function camelCase($str)
     {
