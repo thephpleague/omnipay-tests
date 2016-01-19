@@ -3,14 +3,13 @@
 namespace Omnipay\Tests;
 
 use Mockery as m;
+use Omnipay\Common\Http\Client;
 use PHPUnit_Framework_TestCase;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use ReflectionObject;
-use Guzzle\Common\Event;
-use Guzzle\Http\Client as HttpClient;
-use Guzzle\Http\Message\Response;
-use Guzzle\Http\Message\RequestInterface as GuzzleRequestInterface;
-use Guzzle\Plugin\Mock\MockPlugin;
-use Symfony\Component\HttpFoundation\Request as HttpRequest;
+use GuzzleHttp\Handler\MockHandler;
+use Zend\Diactoros\ServerRequest;
 
 /**
  * Base class for all Omnipay tests
@@ -70,11 +69,11 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
      *
      * @param string $path Relative path to the mock response file
      *
-     * @return Response
+     * @return ResponseInterface
      */
     public function getMockHttpResponse($path)
     {
-        if ($path instanceof Response) {
+        if ($path instanceof ResponseInterface) {
             return $path;
         }
 
@@ -83,10 +82,10 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 
         // if mock file doesn't exist, check parent directory
         if (!file_exists($dir.'/Mock/'.$path) && file_exists($dir.'/../Mock/'.$path)) {
-            return MockPlugin::getMockFile($dir.'/../Mock/'.$path);
+            return \GuzzleHttp\Psr7\parse_response($dir.'/../Mock/'.$path);
         }
 
-        return MockPlugin::getMockFile($dir.'/Mock/'.$path);
+        return \GuzzleHttp\Psr7\parse_response($dir.'/Mock/'.$path);
     }
 
     /**
@@ -95,31 +94,29 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
      * This method assumes that mock response files are located under the
      * Mock/ subdirectory of the current class. A mock response is added to the next
      * request sent by the client.
-     * 
-     * An array of path can be provided and the next x number of client requests are 
+     *
+     * An array of path can be provided and the next x number of client requests are
      * mocked in the order of the array where x = the array length.
      *
      * @param array|string $paths Path to files within the Mock folder of the service
      *
-     * @return MockPlugin returns the created mock plugin
+     * @return MockHandler returns the created mock plugin
      */
     public function setMockHttpResponse($paths)
     {
         $this->mockHttpRequests = array();
-        $that = $this;
-        $mock = new MockPlugin(null, true);
-        $this->getHttpClient()->getEventDispatcher()->removeSubscriber($mock);
-        $mock->getEventDispatcher()->addListener('mock.request', function(Event $event) use ($that) {
-            $that->addMockedHttpRequest($event['request']);
-        });
 
+        $queue = [];
         foreach ((array) $paths as $path) {
-            $mock->addResponse($this->getMockHttpResponse($path));
+            $queue[] = $this->getMockHttpResponse($path);
         }
 
-        $this->getHttpClient()->getEventDispatcher()->addSubscriber($mock);
+        $mockHandler = new MockHandler($queue);
 
-        return $mock;
+        $guzzleClient = new \GuzzleHttp\Client(['handler' => $mockHandler]);
+        $this->httpClient = new Client($guzzleClient);
+
+        return $mockHandler;
     }
 
     /**
@@ -163,7 +160,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
     public function getHttpClient()
     {
         if (null === $this->httpClient) {
-            $this->httpClient = new HttpClient;
+            $this->httpClient = new Client;
         }
 
         return $this->httpClient;
@@ -172,7 +169,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
     public function getHttpRequest()
     {
         if (null === $this->httpRequest) {
-            $this->httpRequest = new HttpRequest;
+            $this->httpRequest = new ServerRequest();
         }
 
         return $this->httpRequest;
