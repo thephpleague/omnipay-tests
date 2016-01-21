@@ -3,10 +3,12 @@
 namespace Omnipay\Tests;
 
 use Mockery as m;
-use Omnipay\Common\Http\Client;
+use Omnipay\Common\Http\ClientInterface;
+use Omnipay\Common\Http\GuzzleClient;
 use PHPUnit_Framework_TestCase;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use ReflectionObject;
 use GuzzleHttp\Handler\MockHandler;
 use Zend\Diactoros\ServerRequest;
@@ -43,11 +45,11 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
     /**
      * Mark a request as being mocked
      *
-     * @param GuzzleRequestInterface $request
+     * @param RequestInterface $request
      *
      * @return self
      */
-    public function addMockedHttpRequest(GuzzleRequestInterface $request)
+    public function addMockedHttpRequest(RequestInterface $request)
     {
         $this->mockHttpRequests[] = $request;
 
@@ -113,8 +115,8 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 
         $mockHandler = new MockHandler($queue);
 
-        $guzzleClient = new \GuzzleHttp\Client(['handler' => $mockHandler]);
-        $this->httpClient = new Client($guzzleClient);
+        $guzzle = new \GuzzleHttp\Client(['handler' => $mockHandler]);
+        $this->httpClient = new GuzzleClient($guzzle);
 
         return $mockHandler;
     }
@@ -157,15 +159,21 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
         return $this->mockRequest;
     }
 
+    /**
+     * @return ClientInterface
+     */
     public function getHttpClient()
     {
         if (null === $this->httpClient) {
-            $this->httpClient = new Client;
+            $this->httpClient = new GuzzleClient;
         }
 
         return $this->httpClient;
     }
 
+    /**
+     * @return ServerRequestInterface
+     */
     public function getHttpRequest()
     {
         if (null === $this->httpRequest) {
