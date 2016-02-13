@@ -23,7 +23,7 @@
         }
     ],
     "autoload": {
-        "psr-0": { "Omnipay\\Tests\\" : "src/" }
+        "psr-4": { "League\\Omnipay\\Tests\\" : "src/" }
     },
     "require": {
         "mockery/mockery": "~0.8",

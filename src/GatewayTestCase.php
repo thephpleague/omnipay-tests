@@ -1,6 +1,6 @@
 <?php
 
-namespace Omnipay\Tests;
+namespace League\Omnipay\Tests;
 
 /**
  * Base Gateway Test class
@@ -68,7 +68,7 @@ abstract class GatewayTestCase extends TestCase
         $this->assertInternalType('boolean', $supportsAuthorize);
 
         if ($supportsAuthorize) {
-            $this->assertInstanceOf('Omnipay\Common\Message\RequestInterface', $this->gateway->authorize());
+            $this->assertInstanceOf('League\Omnipay\Common\Message\RequestInterface', $this->gateway->authorize());
         } else {
             $this->assertFalse(method_exists($this->gateway, 'authorize'));
         }
@@ -80,7 +80,7 @@ abstract class GatewayTestCase extends TestCase
         $this->assertInternalType('boolean', $supportsCompleteAuthorize);
 
         if ($supportsCompleteAuthorize) {
-            $this->assertInstanceOf('Omnipay\Common\Message\RequestInterface', $this->gateway->completeAuthorize());
+            $this->assertInstanceOf('League\Omnipay\Common\Message\RequestInterface', $this->gateway->completeAuthorize());
         } else {
             $this->assertFalse(method_exists($this->gateway, 'completeAuthorize'));
         }
@@ -92,7 +92,7 @@ abstract class GatewayTestCase extends TestCase
         $this->assertInternalType('boolean', $supportsCapture);
 
         if ($supportsCapture) {
-            $this->assertInstanceOf('Omnipay\Common\Message\RequestInterface', $this->gateway->capture());
+            $this->assertInstanceOf('League\Omnipay\Common\Message\RequestInterface', $this->gateway->capture());
         } else {
             $this->assertFalse(method_exists($this->gateway, 'capture'));
         }
@@ -104,7 +104,7 @@ abstract class GatewayTestCase extends TestCase
         $this->assertInternalType('boolean', $supportsPurchase);
 
         if ($supportsPurchase) {
-            $this->assertInstanceOf('Omnipay\Common\Message\RequestInterface', $this->gateway->purchase());
+            $this->assertInstanceOf('League\Omnipay\Common\Message\RequestInterface', $this->gateway->purchase());
         } else {
             $this->assertFalse(method_exists($this->gateway, 'purchase'));
         }
@@ -116,7 +116,7 @@ abstract class GatewayTestCase extends TestCase
         $this->assertInternalType('boolean', $supportsCompletePurchase);
 
         if ($supportsCompletePurchase) {
-            $this->assertInstanceOf('Omnipay\Common\Message\RequestInterface', $this->gateway->completePurchase());
+            $this->assertInstanceOf('League\Omnipay\Common\Message\RequestInterface', $this->gateway->completePurchase());
         } else {
             $this->assertFalse(method_exists($this->gateway, 'completePurchase'));
         }
@@ -128,7 +128,7 @@ abstract class GatewayTestCase extends TestCase
         $this->assertInternalType('boolean', $supportsRefund);
 
         if ($supportsRefund) {
-            $this->assertInstanceOf('Omnipay\Common\Message\RequestInterface', $this->gateway->refund());
+            $this->assertInstanceOf('League\Omnipay\Common\Message\RequestInterface', $this->gateway->refund());
         } else {
             $this->assertFalse(method_exists($this->gateway, 'refund'));
         }
@@ -140,7 +140,7 @@ abstract class GatewayTestCase extends TestCase
         $this->assertInternalType('boolean', $supportsVoid);
 
         if ($supportsVoid) {
-            $this->assertInstanceOf('Omnipay\Common\Message\RequestInterface', $this->gateway->void());
+            $this->assertInstanceOf('League\Omnipay\Common\Message\RequestInterface', $this->gateway->void());
         } else {
             $this->assertFalse(method_exists($this->gateway, 'void'));
         }
@@ -152,7 +152,7 @@ abstract class GatewayTestCase extends TestCase
         $this->assertInternalType('boolean', $supportsCreate);
 
         if ($supportsCreate) {
-            $this->assertInstanceOf('Omnipay\Common\Message\RequestInterface', $this->gateway->createCard());
+            $this->assertInstanceOf('League\Omnipay\Common\Message\RequestInterface', $this->gateway->createCard());
         } else {
             $this->assertFalse(method_exists($this->gateway, 'createCard'));
         }
@@ -164,7 +164,7 @@ abstract class GatewayTestCase extends TestCase
         $this->assertInternalType('boolean', $supportsDelete);
 
         if ($supportsDelete) {
-            $this->assertInstanceOf('Omnipay\Common\Message\RequestInterface', $this->gateway->deleteCard());
+            $this->assertInstanceOf('League\Omnipay\Common\Message\RequestInterface', $this->gateway->deleteCard());
         } else {
             $this->assertFalse(method_exists($this->gateway, 'deleteCard'));
         }
@@ -176,7 +176,7 @@ abstract class GatewayTestCase extends TestCase
         $this->assertInternalType('boolean', $supportsUpdate);
 
         if ($supportsUpdate) {
-            $this->assertInstanceOf('Omnipay\Common\Message\RequestInterface', $this->gateway->updateCard());
+            $this->assertInstanceOf('League\Omnipay\Common\Message\RequestInterface', $this->gateway->updateCard());
         } else {
             $this->assertFalse(method_exists($this->gateway, 'updateCard'));
         }

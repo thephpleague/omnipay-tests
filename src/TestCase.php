@@ -1,10 +1,10 @@
 <?php
 
-namespace Omnipay\Tests;
+namespace League\Omnipay\Tests;
 
 use Mockery as m;
-use Omnipay\Common\Http\ClientInterface;
-use Omnipay\Common\Http\GuzzleClient;
+use League\Omnipay\Common\Http\ClientInterface;
+use League\Omnipay\Common\Http\GuzzleClient;
 use PHPUnit_Framework_TestCase;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -153,7 +153,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
     public function getMockRequest()
     {
         if (null === $this->mockRequest) {
-            $this->mockRequest = m::mock('\Omnipay\Common\Message\RequestInterface');
+            $this->mockRequest = m::mock('\League\Omnipay\Common\Message\RequestInterface');
         }
 
         return $this->mockRequest;
