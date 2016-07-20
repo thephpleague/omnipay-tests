@@ -165,7 +165,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
     public function getHttpClient()
     {
         if (null === $this->httpClient) {
-            $this->httpClient = new GuzzleClient;
+            $this->httpClient = new GuzzleClient(new \GuzzleHttp\Client);
         }
 
         return $this->httpClient;
