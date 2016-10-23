@@ -10,8 +10,8 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use ReflectionObject;
+use GuzzleHttp\Psr7\ServerRequest;
 use GuzzleHttp\Handler\MockHandler;
-use Zend\Diactoros\ServerRequest;
 
 /**
  * Base class for all Omnipay tests
@@ -177,7 +177,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
     public function getHttpRequest()
     {
         if (null === $this->httpRequest) {
-            $this->httpRequest = new ServerRequest();
+            $this->httpRequest = new ServerRequest('GET', '');
         }
 
         return $this->httpRequest;
