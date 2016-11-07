@@ -150,6 +150,36 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * Helper method used by gateway test classes to generate a valid test credit card
+     */
+    public function getValidCard()
+    {
+        return array(
+            'firstName' => 'Example',
+            'lastName' => 'User',
+            'number' => '4111111111111111',
+            'expiryMonth' => rand(1, 12),
+            'expiryYear' => gmdate('Y') + rand(1, 5),
+            'cvv' => rand(100, 999),
+        );
+    }
+
+    public function getCustomer()
+    {
+        return array(
+            'firstName' => 'Example',
+            'lastName' => 'User',
+            'address1' => '123 Billing St',
+            'address2' => 'Billsville',
+            'city' => 'Billstown',
+            'postcode' => '12345',
+            'state' => 'CA',
+            'country' => 'US',
+            'phone' => '(555) 123-4567',
+        );
+    }
+
     public function getMockRequest()
     {
         if (null === $this->mockRequest) {
