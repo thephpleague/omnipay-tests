@@ -81,13 +81,14 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 
         $ref = new ReflectionObject($this);
         $dir = dirname($ref->getFileName());
+        $fullPath = $dir.'/Mock/'.$path;
 
         // if mock file doesn't exist, check parent directory
-        if (!file_exists($dir.'/Mock/'.$path) && file_exists($dir.'/../Mock/'.$path)) {
-            return \GuzzleHttp\Psr7\parse_response($dir.'/../Mock/'.$path);
+        if (!file_exists($fullPath) && file_exists($dir.'/../Mock/'.$path)) {
+            $fullPath = $dir.'/../Mock/'.$path;
         }
 
-        return \GuzzleHttp\Psr7\parse_response($dir.'/Mock/'.$path);
+        return \GuzzleHttp\Psr7\parse_response(file_get_contents($fullPath));
     }
 
     /**
