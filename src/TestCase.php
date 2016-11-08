@@ -146,6 +146,19 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
         ];
     }
 
+    public function getShippingCustomer()
+    {
+        return [
+            'address1' => '123 Shipping St',
+            'address2' => 'Shipsville',
+            'city' => 'Shipstown',
+            'postcode' => '54321',
+            'state' => 'NY',
+            'country' => 'US',
+            'phone' => '(555) 987-6543',
+        ];
+    }
+
     public function getMockRequest()
     {
         if (null === $this->mockRequest) {
