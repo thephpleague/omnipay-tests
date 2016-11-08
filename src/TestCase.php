@@ -117,7 +117,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
         $mockHandler = new MockHandler($queue);
 
         $guzzle = new \GuzzleHttp\Client(['handler' => $mockHandler]);
-        $this->httpClient = new GuzzleClient($guzzle);
+        $this->httpClient->setGuzzleClient($guzzle);
 
         return $mockHandler;
     }
