@@ -2,6 +2,9 @@
 
 namespace League\Omnipay\Tests;
 
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Middleware;
+use GuzzleHttp\Psr7\Response;
 use Mockery as m;
 use League\Omnipay\Common\Http\ClientInterface;
 use League\Omnipay\Common\Http\GuzzleClient;
@@ -20,8 +23,9 @@ use GuzzleHttp\Handler\MockHandler;
  */
 abstract class TestCase extends PHPUnit_Framework_TestCase
 {
-    private $mockHttpRequests = array();
+    private $mockContainer = array();
     private $mockRequest;
+    /** @var  GuzzleClient */
     private $httpClient;
     private $httpRequest;
 
@@ -42,28 +46,19 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * Mark a request as being mocked
-     *
-     * @param RequestInterface $request
-     *
-     * @return self
-     */
-    public function addMockedHttpRequest(RequestInterface $request)
-    {
-        $this->mockHttpRequests[] = $request;
-
-        return $this;
-    }
 
     /**
      * Get all of the mocked requests
      *
-     * @return array
+     * @return array|RequestInterface[]
      */
     public function getMockedRequests()
     {
-        return $this->mockHttpRequests;
+        $requests = [];
+        foreach ($this->mockContainer as $transaction) {
+            $requests[] = $transaction['request'];
+        }
+        return $requests;
     }
 
     /**
@@ -107,19 +102,20 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
      */
     public function setMockHttpResponse($paths)
     {
-        $this->mockHttpRequests = array();
+        $this->mockContainer = array();
 
         $queue = [];
         foreach ((array) $paths as $path) {
             $queue[] = $this->getMockHttpResponse($path);
         }
 
-        $mockHandler = new MockHandler($queue);
+        $stack = MockHandler::createWithMiddleware($queue);
+        $stack->push(Middleware::history($this->mockContainer));
 
-        $guzzle = new \GuzzleHttp\Client(['handler' => $mockHandler]);
+        $guzzle = new \GuzzleHttp\Client(['handler' => $stack]);
         $this->httpClient->setGuzzleClient($guzzle);
 
-        return $mockHandler;
+        return $stack;
     }
 
     /**
@@ -137,7 +133,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 
     public function getCustomer()
     {
-        return array(
+        return [
             'firstName' => 'Example',
             'lastName' => 'User',
             'address1' => '123 Billing St',
@@ -147,7 +143,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
             'state' => 'CA',
             'country' => 'US',
             'phone' => '(555) 123-4567',
-        );
+        ];
     }
 
     public function getMockRequest()
