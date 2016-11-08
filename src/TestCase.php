@@ -133,35 +133,6 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
             'expiryMonth' => rand(1, 12),
             'expiryYear' => gmdate('Y') + rand(1, 5),
             'cvv' => rand(100, 999),
-            'billingAddress1' => '123 Billing St',
-            'billingAddress2' => 'Billsville',
-            'billingCity' => 'Billstown',
-            'billingPostcode' => '12345',
-            'billingState' => 'CA',
-            'billingCountry' => 'US',
-            'billingPhone' => '(555) 123-4567',
-            'shippingAddress1' => '123 Shipping St',
-            'shippingAddress2' => 'Shipsville',
-            'shippingCity' => 'Shipstown',
-            'shippingPostcode' => '54321',
-            'shippingState' => 'NY',
-            'shippingCountry' => 'US',
-            'shippingPhone' => '(555) 987-6543',
-        );
-    }
-
-    /**
-     * Helper method used by gateway test classes to generate a valid test credit card
-     */
-    public function getValidCard()
-    {
-        return array(
-            'firstName' => 'Example',
-            'lastName' => 'User',
-            'number' => '4111111111111111',
-            'expiryMonth' => rand(1, 12),
-            'expiryYear' => gmdate('Y') + rand(1, 5),
-            'cvv' => rand(100, 999),
         );
     }
 
