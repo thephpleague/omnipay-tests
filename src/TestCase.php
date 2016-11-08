@@ -128,8 +128,6 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
     public function getValidCard()
     {
         return array(
-            'firstName' => 'Example',
-            'lastName' => 'User',
             'number' => '4111111111111111',
             'expiryMonth' => rand(1, 12),
             'expiryYear' => gmdate('Y') + rand(1, 5),
