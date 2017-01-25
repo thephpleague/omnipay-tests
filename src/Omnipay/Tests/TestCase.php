@@ -3,13 +3,12 @@
 namespace Omnipay\Tests;
 
 use Mockery as m;
+use Omnipay\Common\Http\Client;
 use PHPUnit_Framework_TestCase;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use ReflectionObject;
-use Guzzle\Common\Event;
-use Guzzle\Http\Client as HttpClient;
-use Guzzle\Http\Message\Response;
-use Guzzle\Http\Message\RequestInterface as GuzzleRequestInterface;
-use Guzzle\Plugin\Mock\MockPlugin;
+use Http\Mock\Client as MockClient;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
 
 /**
@@ -19,8 +18,9 @@ use Symfony\Component\HttpFoundation\Request as HttpRequest;
  */
 abstract class TestCase extends PHPUnit_Framework_TestCase
 {
-    private $mockHttpRequests = array();
     private $mockRequest;
+    /** @var  MockClient */
+    private $mockClient;
     private $httpClient;
     private $httpRequest;
 
@@ -41,19 +41,6 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * Mark a request as being mocked
-     *
-     * @param GuzzleRequestInterface $request
-     *
-     * @return self
-     */
-    public function addMockedHttpRequest(GuzzleRequestInterface $request)
-    {
-        $this->mockHttpRequests[] = $request;
-
-        return $this;
-    }
 
     /**
      * Get all of the mocked requests
@@ -62,7 +49,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
      */
     public function getMockedRequests()
     {
-        return $this->mockHttpRequests;
+        return $this->mockClient->getRequests();
     }
 
     /**
@@ -70,11 +57,11 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
      *
      * @param string $path Relative path to the mock response file
      *
-     * @return Response
+     * @return ResponseInterface
      */
     public function getMockHttpResponse($path)
     {
-        if ($path instanceof Response) {
+        if ($path instanceof ResponseInterface) {
             return $path;
         }
 
@@ -83,10 +70,10 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 
         // if mock file doesn't exist, check parent directory
         if (!file_exists($dir.'/Mock/'.$path) && file_exists($dir.'/../Mock/'.$path)) {
-            return MockPlugin::getMockFile($dir.'/../Mock/'.$path);
+            return \GuzzleHttp\Psr7\parse_response(file_get_contents($dir.'/../Mock/'.$path));
         }
 
-        return MockPlugin::getMockFile($dir.'/Mock/'.$path);
+        return \GuzzleHttp\Psr7\parse_response(file_get_contents($dir.'/Mock/'.$path));
     }
 
     /**
@@ -95,31 +82,19 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
      * This method assumes that mock response files are located under the
      * Mock/ subdirectory of the current class. A mock response is added to the next
      * request sent by the client.
-     * 
-     * An array of path can be provided and the next x number of client requests are 
+     *
+     * An array of path can be provided and the next x number of client requests are
      * mocked in the order of the array where x = the array length.
      *
      * @param array|string $paths Path to files within the Mock folder of the service
      *
-     * @return MockPlugin returns the created mock plugin
+     * @return void returns the created mock plugin
      */
     public function setMockHttpResponse($paths)
     {
-        $this->mockHttpRequests = array();
-        $that = $this;
-        $mock = new MockPlugin(null, true);
-        $this->getHttpClient()->getEventDispatcher()->removeSubscriber($mock);
-        $mock->getEventDispatcher()->addListener('mock.request', function(Event $event) use ($that) {
-            $that->addMockedHttpRequest($event['request']);
-        });
-
         foreach ((array) $paths as $path) {
-            $mock->addResponse($this->getMockHttpResponse($path));
+            $this->mockClient->addResponse($this->getMockHttpResponse($path));
         }
-
-        $this->getHttpClient()->getEventDispatcher()->addSubscriber($mock);
-
-        return $mock;
     }
 
     /**
@@ -154,16 +129,27 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
     public function getMockRequest()
     {
         if (null === $this->mockRequest) {
-            $this->mockRequest = m::mock('\Omnipay\Common\Message\RequestInterface');
+            $this->mockRequest = m::mock(RequestInterface::class);
         }
 
         return $this->mockRequest;
     }
 
+    public function getMockClient()
+    {
+        if (null === $this->mockClient) {
+            $this->mockClient = new MockClient();
+        }
+
+        return $this->mockClient;
+    }
+
     public function getHttpClient()
     {
         if (null === $this->httpClient) {
-            $this->httpClient = new HttpClient;
+            $this->httpClient = new Client(
+                $this->getMockClient()
+            );
         }
 
         return $this->httpClient;
