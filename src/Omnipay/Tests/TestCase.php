@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Request as HttpRequest;
  */
 abstract class TestCase extends PHPUnit_Framework_TestCase
 {
+    /** @var  \Omnipay\Common\Message\RequestInterface */
     private $mockRequest;
     /** @var  MockClient */
     private $mockClient;
@@ -129,7 +130,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
     public function getMockRequest()
     {
         if (null === $this->mockRequest) {
-            $this->mockRequest = m::mock(RequestInterface::class);
+            $this->mockRequest = m::mock('\Omnipay\Common\Message\RequestInterface');
         }
 
         return $this->mockRequest;
