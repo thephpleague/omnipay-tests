@@ -4,8 +4,7 @@ namespace Omnipay\Tests;
 
 use Mockery as m;
 use Omnipay\Common\Http\Client;
-use PHPUnit_Framework_TestCase;
-use Psr\Http\Message\RequestInterface;
+use PHPUnit\Framework\TestCase as PHPUnit_Framework_TestCase;
 use Psr\Http\Message\ResponseInterface;
 use ReflectionObject;
 use Http\Mock\Client as MockClient;
