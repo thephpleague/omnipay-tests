@@ -23,7 +23,7 @@
         }
     ],
     "autoload": {
-        "psr-0": { "Omnipay\\Tests\\" : "src/" }
+        "psr-4": { "Omnipay\\Tests\\" : "src/" }
     },
     "require": {
         "php-http/mock-client": "^1",
