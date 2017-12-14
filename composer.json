@@ -33,7 +33,7 @@
     },
     "require-dev": {
         "omnipay/common": "^3",
-        "symfony/http-foundation": "^3"
+        "symfony/http-foundation": "^3|4^"
     },
     "extra": {
         "branch-alias": {
