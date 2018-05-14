@@ -28,8 +28,8 @@
     "require": {
         "php-http/mock-client": "^1",
         "php-http/guzzle6-adapter": "^1.1.1",
-        "mockery/mockery": "^0.9",
-        "phpunit/phpunit": "^5.7.25"
+        "mockery/mockery": "^1",
+        "phpunit/phpunit": "^6"
     },
     "require-dev": {
         "omnipay/common": "^3",
@@ -39,5 +39,7 @@
         "branch-alias": {
             "dev-master": "3.0.x-dev"
         }
-    }
+    },
+    "minimum-stability": "rc",
+    "prefer-stable": true
 }

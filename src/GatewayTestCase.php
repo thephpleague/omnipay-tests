@@ -2,6 +2,8 @@
 
 namespace Omnipay\Tests;
 
+use Omnipay\Common\AbstractGateway;
+
 /**
  * Base Gateway Test class
  *
@@ -9,6 +11,9 @@ namespace Omnipay\Tests;
  */
 abstract class GatewayTestCase extends TestCase
 {
+    /** @var AbstractGateway */
+    protected $gateway;
+
     public function testGetNameNotEmpty()
     {
         $name = $this->gateway->getName();

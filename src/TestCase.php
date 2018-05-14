@@ -4,7 +4,7 @@ namespace Omnipay\Tests;
 
 use Mockery as m;
 use Omnipay\Common\Http\Client;
-use PHPUnit\Framework\TestCase as PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use Psr\Http\Message\ResponseInterface;
 use ReflectionObject;
 use Http\Mock\Client as MockClient;
@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request as HttpRequest;
  *
  * Guzzle mock methods area based on those in GuzzleTestCase
  */
-abstract class TestCase extends PHPUnit_Framework_TestCase
+abstract class TestCase extends PHPUnitTestCase
 {
     /** @var  \Omnipay\Common\Message\RequestInterface */
     private $mockRequest;
@@ -162,5 +162,9 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
         }
 
         return $this->httpRequest;
+    }
+
+    public function tearDown() {
+        \Mockery::close();
     }
 }
