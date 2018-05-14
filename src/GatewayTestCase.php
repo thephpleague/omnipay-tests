@@ -3,6 +3,7 @@
 namespace Omnipay\Tests;
 
 use Omnipay\Common\AbstractGateway;
+use Omnipay\Common\Message\RequestInterface;
 
 /**
  * Base Gateway Test class
@@ -73,7 +74,7 @@ abstract class GatewayTestCase extends TestCase
         $this->assertInternalType('boolean', $supportsAuthorize);
 
         if ($supportsAuthorize) {
-            $this->assertInstanceOf('Omnipay\Common\Message\RequestInterface', $this->gateway->authorize());
+            $this->assertInstanceOf(RequestInterface::class, $this->gateway->authorize());
         } else {
             $this->assertFalse(method_exists($this->gateway, 'authorize'));
         }
@@ -85,7 +86,7 @@ abstract class GatewayTestCase extends TestCase
         $this->assertInternalType('boolean', $supportsCompleteAuthorize);
 
         if ($supportsCompleteAuthorize) {
-            $this->assertInstanceOf('Omnipay\Common\Message\RequestInterface', $this->gateway->completeAuthorize());
+            $this->assertInstanceOf(RequestInterface::class, $this->gateway->completeAuthorize());
         } else {
             $this->assertFalse(method_exists($this->gateway, 'completeAuthorize'));
         }
@@ -97,7 +98,7 @@ abstract class GatewayTestCase extends TestCase
         $this->assertInternalType('boolean', $supportsCapture);
 
         if ($supportsCapture) {
-            $this->assertInstanceOf('Omnipay\Common\Message\RequestInterface', $this->gateway->capture());
+            $this->assertInstanceOf(RequestInterface::class, $this->gateway->capture());
         } else {
             $this->assertFalse(method_exists($this->gateway, 'capture'));
         }
@@ -109,7 +110,7 @@ abstract class GatewayTestCase extends TestCase
         $this->assertInternalType('boolean', $supportsPurchase);
 
         if ($supportsPurchase) {
-            $this->assertInstanceOf('Omnipay\Common\Message\RequestInterface', $this->gateway->purchase());
+            $this->assertInstanceOf(RequestInterface::class, $this->gateway->purchase());
         } else {
             $this->assertFalse(method_exists($this->gateway, 'purchase'));
         }
@@ -121,7 +122,7 @@ abstract class GatewayTestCase extends TestCase
         $this->assertInternalType('boolean', $supportsCompletePurchase);
 
         if ($supportsCompletePurchase) {
-            $this->assertInstanceOf('Omnipay\Common\Message\RequestInterface', $this->gateway->completePurchase());
+            $this->assertInstanceOf(RequestInterface::class, $this->gateway->completePurchase());
         } else {
             $this->assertFalse(method_exists($this->gateway, 'completePurchase'));
         }
@@ -133,7 +134,7 @@ abstract class GatewayTestCase extends TestCase
         $this->assertInternalType('boolean', $supportsRefund);
 
         if ($supportsRefund) {
-            $this->assertInstanceOf('Omnipay\Common\Message\RequestInterface', $this->gateway->refund());
+            $this->assertInstanceOf(RequestInterface::class, $this->gateway->refund());
         } else {
             $this->assertFalse(method_exists($this->gateway, 'refund'));
         }
@@ -145,7 +146,7 @@ abstract class GatewayTestCase extends TestCase
         $this->assertInternalType('boolean', $supportsVoid);
 
         if ($supportsVoid) {
-            $this->assertInstanceOf('Omnipay\Common\Message\RequestInterface', $this->gateway->void());
+            $this->assertInstanceOf(RequestInterface::class, $this->gateway->void());
         } else {
             $this->assertFalse(method_exists($this->gateway, 'void'));
         }
@@ -157,7 +158,7 @@ abstract class GatewayTestCase extends TestCase
         $this->assertInternalType('boolean', $supportsCreate);
 
         if ($supportsCreate) {
-            $this->assertInstanceOf('Omnipay\Common\Message\RequestInterface', $this->gateway->createCard());
+            $this->assertInstanceOf(RequestInterface::class, $this->gateway->createCard());
         } else {
             $this->assertFalse(method_exists($this->gateway, 'createCard'));
         }
@@ -169,7 +170,7 @@ abstract class GatewayTestCase extends TestCase
         $this->assertInternalType('boolean', $supportsDelete);
 
         if ($supportsDelete) {
-            $this->assertInstanceOf('Omnipay\Common\Message\RequestInterface', $this->gateway->deleteCard());
+            $this->assertInstanceOf(RequestInterface::class, $this->gateway->deleteCard());
         } else {
             $this->assertFalse(method_exists($this->gateway, 'deleteCard'));
         }
@@ -181,7 +182,7 @@ abstract class GatewayTestCase extends TestCase
         $this->assertInternalType('boolean', $supportsUpdate);
 
         if ($supportsUpdate) {
-            $this->assertInstanceOf('Omnipay\Common\Message\RequestInterface', $this->gateway->updateCard());
+            $this->assertInstanceOf(RequestInterface::class, $this->gateway->updateCard());
         } else {
             $this->assertFalse(method_exists($this->gateway, 'updateCard'));
         }

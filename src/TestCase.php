@@ -4,6 +4,8 @@ namespace Omnipay\Tests;
 
 use Mockery as m;
 use Omnipay\Common\Http\Client;
+use Omnipay\Common\Http\ClientInterface;
+use Omnipay\Common\Message\RequestInterface;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use Psr\Http\Message\ResponseInterface;
 use ReflectionObject;
@@ -17,11 +19,16 @@ use Symfony\Component\HttpFoundation\Request as HttpRequest;
  */
 abstract class TestCase extends PHPUnitTestCase
 {
-    /** @var  \Omnipay\Common\Message\RequestInterface */
+    /** @var  RequestInterface */
     private $mockRequest;
+
     /** @var  MockClient */
     private $mockClient;
+
+    /** @var ClientInterface */
     private $httpClient;
+
+    /** @var HttpRequest */
     private $httpRequest;
 
     /**
@@ -129,7 +136,7 @@ abstract class TestCase extends PHPUnitTestCase
     public function getMockRequest()
     {
         if (null === $this->mockRequest) {
-            $this->mockRequest = m::mock('\Omnipay\Common\Message\RequestInterface');
+            $this->mockRequest = m::mock(RequestInterface::class);
         }
 
         return $this->mockRequest;
