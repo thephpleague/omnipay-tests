@@ -188,6 +188,9 @@ abstract class GatewayTestCase extends TestCase
         }
     }
 
+    /**
+     * @doesNotPerformAssertions
+     */
     public function testAuthorizeParameters()
     {
         if ($this->gateway->supportsAuthorize()) {
@@ -205,6 +208,9 @@ abstract class GatewayTestCase extends TestCase
         }
     }
 
+    /**
+     * @doesNotPerformAssertions
+     */
     public function testCompleteAuthorizeParameters()
     {
         if ($this->gateway->supportsCompleteAuthorize()) {
@@ -222,6 +228,9 @@ abstract class GatewayTestCase extends TestCase
         }
     }
 
+    /**
+     * @doesNotPerformAssertions
+     */
     public function testCaptureParameters()
     {
         if ($this->gateway->supportsCapture()) {
@@ -239,6 +248,9 @@ abstract class GatewayTestCase extends TestCase
         }
     }
 
+    /**
+     * @doesNotPerformAssertions
+     */
     public function testPurchaseParameters()
     {
         if ($this->gateway->supportsPurchase()) {
@@ -256,6 +268,9 @@ abstract class GatewayTestCase extends TestCase
         }
     }
 
+    /**
+     * @doesNotPerformAssertions
+     */
     public function testCompletePurchaseParameters()
     {
         if ($this->gateway->supportsCompletePurchase()) {
@@ -273,6 +288,9 @@ abstract class GatewayTestCase extends TestCase
         }
     }
 
+    /**
+     * @doesNotPerformAssertions
+     */
     public function testRefundParameters()
     {
         if ($this->gateway->supportsRefund()) {
@@ -290,6 +308,9 @@ abstract class GatewayTestCase extends TestCase
         }
     }
 
+    /**
+     * @doesNotPerformAssertions
+     */
     public function testVoidParameters()
     {
         if ($this->gateway->supportsVoid()) {
@@ -307,6 +328,9 @@ abstract class GatewayTestCase extends TestCase
         }
     }
 
+    /**
+     * @doesNotPerformAssertions
+     */
     public function testCreateCardParameters()
     {
         if ($this->gateway->supportsCreateCard()) {
@@ -324,6 +348,9 @@ abstract class GatewayTestCase extends TestCase
         }
     }
 
+    /**
+     * @doesNotPerformAssertions
+     */
     public function testDeleteCardParameters()
     {
         if ($this->gateway->supportsDeleteCard()) {
@@ -341,6 +368,9 @@ abstract class GatewayTestCase extends TestCase
         }
     }
 
+    /**
+     * @doesNotPerformAssertions
+     */
     public function testUpdateCardParameters()
     {
         if ($this->gateway->supportsUpdateCard()) {
