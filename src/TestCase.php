@@ -3,6 +3,7 @@
 namespace Omnipay\Tests;
 
 use Mockery as m;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Omnipay\Common\Http\Client;
 use Omnipay\Common\Http\ClientInterface;
 use Omnipay\Common\Message\RequestInterface;
@@ -19,6 +20,8 @@ use Symfony\Component\HttpFoundation\Request as HttpRequest;
  */
 abstract class TestCase extends PHPUnitTestCase
 {
+    use MockeryPHPUnitIntegration;
+
     /** @var  RequestInterface */
     private $mockRequest;
 
@@ -169,9 +172,5 @@ abstract class TestCase extends PHPUnitTestCase
         }
 
         return $this->httpRequest;
-    }
-
-    public function tearDown() {
-        \Mockery::close();
     }
 }
