@@ -23,7 +23,7 @@
         "psr-4": { "Omnipay\\Tests\\" : "src/" }
     },
     "require": {
-        "php-http/mock-client": "^1",
+        "php-http/mock-client": "^1.1",
         "php-http/guzzle6-adapter": "^1.1.1",
         "mockery/mockery": "^1",
         "phpunit/phpunit": "^5.7|^6"
@@ -34,7 +34,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "3.0.x-dev"
+            "dev-master": "3.1.x-dev"
         }
     },
     "prefer-stable": true
