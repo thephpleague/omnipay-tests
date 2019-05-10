@@ -23,7 +23,8 @@
         }
     ],
     "autoload": {
-        "psr-0": { "Omnipay\\Tests\\" : "src/" }
+        "psr-0": { "Omnipay\\Tests\\" : "src/" },
+        "classmap": [ "src/PHPUnit" ]
     },
     "require": {
         "guzzle/plugin-mock": "~3.1",
