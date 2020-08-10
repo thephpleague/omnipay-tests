@@ -2,7 +2,9 @@
     "name": "omnipay/tests",
     "type": "library",
     "description": "Testing components for Omnipay payment processing library",
-    "keywords": ["omnipay"],
+    "keywords": [
+        "omnipay"
+    ],
     "homepage": "https://github.com/thephpleague/omnipay-tests",
     "license": "MIT",
     "authors": [
@@ -20,13 +22,16 @@
         }
     ],
     "autoload": {
-        "psr-4": { "Omnipay\\Tests\\" : "src/" }
+        "psr-4": {
+            "Omnipay\\Tests\\": "src/"
+        }
     },
     "require": {
+        "php": "^7.2",
         "php-http/mock-client": "^1.1",
         "php-http/guzzle6-adapter": "^1.1.1|^2",
         "mockery/mockery": "^1",
-        "phpunit/phpunit": "^5.7|^6"
+        "phpunit/phpunit": "^8 || ^9"
     },
     "require-dev": {
         "omnipay/common": "^3",

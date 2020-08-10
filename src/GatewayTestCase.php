@@ -15,376 +15,366 @@ abstract class GatewayTestCase extends TestCase
     /** @var AbstractGateway */
     protected $gateway;
 
-    public function testGetNameNotEmpty()
+    public function testGetNameNotEmpty(): void
     {
         $name = $this->gateway->getName();
-        $this->assertNotEmpty($name);
-        $this->assertInternalType('string', $name);
+        self::assertNotEmpty($name);
+        self::assertIsString($name);
     }
 
-    public function testGetShortNameNotEmpty()
+    public function testGetShortNameNotEmpty(): void
     {
         $shortName = $this->gateway->getShortName();
-        $this->assertNotEmpty($shortName);
-        $this->assertInternalType('string', $shortName);
+        self::assertNotEmpty($shortName);
+        self::assertIsString($shortName);
     }
 
-    public function testGetDefaultParametersReturnsArray()
+    public function testGetDefaultParametersReturnsArray(): void
     {
         $settings = $this->gateway->getDefaultParameters();
-        $this->assertInternalType('array', $settings);
+        self::assertIsArray($settings);
     }
 
-    public function testDefaultParametersHaveMatchingMethods()
+    public function testDefaultParametersHaveMatchingMethods(): void
     {
         $settings = $this->gateway->getDefaultParameters();
         foreach ($settings as $key => $default) {
             $getter = 'get'.ucfirst($this->camelCase($key));
             $setter = 'set'.ucfirst($this->camelCase($key));
-            $value = uniqid();
+            $value = uniqid('', true);
 
-            $this->assertTrue(method_exists($this->gateway, $getter), "Gateway must implement $getter()");
-            $this->assertTrue(method_exists($this->gateway, $setter), "Gateway must implement $setter()");
+            self::assertTrue(method_exists($this->gateway, $getter), "Gateway must implement $getter()");
+            self::assertTrue(method_exists($this->gateway, $setter), "Gateway must implement $setter()");
 
             // setter must return instance
-            $this->assertSame($this->gateway, $this->gateway->$setter($value));
-            $this->assertSame($value, $this->gateway->$getter());
+            self::assertSame($this->gateway, $this->gateway->$setter($value));
+            self::assertSame($value, $this->gateway->$getter());
         }
     }
 
-    public function testTestMode()
+    public function testTestMode(): void
     {
-        $this->assertSame($this->gateway, $this->gateway->setTestMode(false));
-        $this->assertSame(false, $this->gateway->getTestMode());
+        self::assertSame($this->gateway, $this->gateway->setTestMode(false));
+        self::assertFalse($this->gateway->getTestMode());
 
-        $this->assertSame($this->gateway, $this->gateway->setTestMode(true));
-        $this->assertSame(true, $this->gateway->getTestMode());
+        self::assertSame($this->gateway, $this->gateway->setTestMode(true));
+        self::assertTrue($this->gateway->getTestMode());
     }
 
-    public function testCurrency()
+    public function testCurrency(): void
     {
         // currency is normalized to uppercase
-        $this->assertSame($this->gateway, $this->gateway->setCurrency('eur'));
-        $this->assertSame('EUR', $this->gateway->getCurrency());
+        self::assertSame($this->gateway, $this->gateway->setCurrency('eur'));
+        self::assertSame('EUR', $this->gateway->getCurrency());
     }
 
-    public function testSupportsAuthorize()
+    public function testSupportsAuthorize(): void
     {
         $supportsAuthorize = $this->gateway->supportsAuthorize();
-        $this->assertInternalType('boolean', $supportsAuthorize);
+        self::assertIsBool($supportsAuthorize);
 
         if ($supportsAuthorize) {
-            $this->assertInstanceOf(RequestInterface::class, $this->gateway->authorize());
+            self::assertInstanceOf(RequestInterface::class, $this->gateway->authorize());
         } else {
-            $this->assertFalse(method_exists($this->gateway, 'authorize'));
+            self::assertFalse(method_exists($this->gateway, 'authorize'));
         }
     }
 
-    public function testSupportsCompleteAuthorize()
+    public function testSupportsCompleteAuthorize(): void
     {
         $supportsCompleteAuthorize = $this->gateway->supportsCompleteAuthorize();
-        $this->assertInternalType('boolean', $supportsCompleteAuthorize);
+        self::assertIsBool($supportsCompleteAuthorize);
 
         if ($supportsCompleteAuthorize) {
-            $this->assertInstanceOf(RequestInterface::class, $this->gateway->completeAuthorize());
+            self::assertInstanceOf(RequestInterface::class, $this->gateway->completeAuthorize());
         } else {
-            $this->assertFalse(method_exists($this->gateway, 'completeAuthorize'));
+            self::assertFalse(method_exists($this->gateway, 'completeAuthorize'));
         }
     }
 
-    public function testSupportsCapture()
+    public function testSupportsCapture(): void
     {
         $supportsCapture = $this->gateway->supportsCapture();
-        $this->assertInternalType('boolean', $supportsCapture);
+        self::assertIsBool($supportsCapture);
 
         if ($supportsCapture) {
-            $this->assertInstanceOf(RequestInterface::class, $this->gateway->capture());
+            self::assertInstanceOf(RequestInterface::class, $this->gateway->capture());
         } else {
-            $this->assertFalse(method_exists($this->gateway, 'capture'));
+            self::assertFalse(method_exists($this->gateway, 'capture'));
         }
     }
 
-    public function testSupportsPurchase()
+    public function testSupportsPurchase(): void
     {
         $supportsPurchase = $this->gateway->supportsPurchase();
-        $this->assertInternalType('boolean', $supportsPurchase);
+        self::assertIsBool($supportsPurchase);
 
         if ($supportsPurchase) {
-            $this->assertInstanceOf(RequestInterface::class, $this->gateway->purchase());
+            self::assertInstanceOf(RequestInterface::class, $this->gateway->purchase());
         } else {
-            $this->assertFalse(method_exists($this->gateway, 'purchase'));
+            self::assertFalse(method_exists($this->gateway, 'purchase'));
         }
     }
 
-    public function testSupportsCompletePurchase()
+    public function testSupportsCompletePurchase(): void
     {
         $supportsCompletePurchase = $this->gateway->supportsCompletePurchase();
-        $this->assertInternalType('boolean', $supportsCompletePurchase);
+        self::assertIsBool($supportsCompletePurchase);
 
         if ($supportsCompletePurchase) {
-            $this->assertInstanceOf(RequestInterface::class, $this->gateway->completePurchase());
+            self::assertInstanceOf(RequestInterface::class, $this->gateway->completePurchase());
         } else {
-            $this->assertFalse(method_exists($this->gateway, 'completePurchase'));
+            self::assertFalse(method_exists($this->gateway, 'completePurchase'));
         }
     }
 
-    public function testSupportsRefund()
+    public function testSupportsRefund(): void
     {
         $supportsRefund = $this->gateway->supportsRefund();
-        $this->assertInternalType('boolean', $supportsRefund);
+        self::assertIsBool($supportsRefund);
 
         if ($supportsRefund) {
-            $this->assertInstanceOf(RequestInterface::class, $this->gateway->refund());
+            self::assertInstanceOf(RequestInterface::class, $this->gateway->refund());
         } else {
-            $this->assertFalse(method_exists($this->gateway, 'refund'));
+            self::assertFalse(method_exists($this->gateway, 'refund'));
         }
     }
 
-    public function testSupportsVoid()
+    public function testSupportsVoid(): void
     {
         $supportsVoid = $this->gateway->supportsVoid();
-        $this->assertInternalType('boolean', $supportsVoid);
+        self::assertIsBool($supportsVoid);
 
         if ($supportsVoid) {
-            $this->assertInstanceOf(RequestInterface::class, $this->gateway->void());
+            self::assertInstanceOf(RequestInterface::class, $this->gateway->void());
         } else {
-            $this->assertFalse(method_exists($this->gateway, 'void'));
+            self::assertFalse(method_exists($this->gateway, 'void'));
         }
     }
 
-    public function testSupportsCreateCard()
+    public function testSupportsCreateCard(): void
     {
         $supportsCreate = $this->gateway->supportsCreateCard();
-        $this->assertInternalType('boolean', $supportsCreate);
+        self::assertIsBool($supportsCreate);
 
         if ($supportsCreate) {
-            $this->assertInstanceOf(RequestInterface::class, $this->gateway->createCard());
+            self::assertInstanceOf(RequestInterface::class, $this->gateway->createCard());
         } else {
-            $this->assertFalse(method_exists($this->gateway, 'createCard'));
+            self::assertFalse(method_exists($this->gateway, 'createCard'));
         }
     }
 
-    public function testSupportsDeleteCard()
+    public function testSupportsDeleteCard(): void
     {
         $supportsDelete = $this->gateway->supportsDeleteCard();
-        $this->assertInternalType('boolean', $supportsDelete);
+        self::assertIsBool($supportsDelete);
 
         if ($supportsDelete) {
-            $this->assertInstanceOf(RequestInterface::class, $this->gateway->deleteCard());
+            self::assertInstanceOf(RequestInterface::class, $this->gateway->deleteCard());
         } else {
-            $this->assertFalse(method_exists($this->gateway, 'deleteCard'));
+            self::assertFalse(method_exists($this->gateway, 'deleteCard'));
         }
     }
 
-    public function testSupportsUpdateCard()
+    public function testSupportsUpdateCard(): void
     {
         $supportsUpdate = $this->gateway->supportsUpdateCard();
-        $this->assertInternalType('boolean', $supportsUpdate);
+        self::assertIsBool($supportsUpdate);
 
         if ($supportsUpdate) {
-            $this->assertInstanceOf(RequestInterface::class, $this->gateway->updateCard());
+            self::assertInstanceOf(RequestInterface::class, $this->gateway->updateCard());
         } else {
-            $this->assertFalse(method_exists($this->gateway, 'updateCard'));
+            self::assertFalse(method_exists($this->gateway, 'updateCard'));
         }
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
-    public function testAuthorizeParameters()
+    public function testAuthorizeParameters(): void
     {
         if ($this->gateway->supportsAuthorize()) {
             foreach ($this->gateway->getDefaultParameters() as $key => $default) {
                 // set property on gateway
                 $getter = 'get'.ucfirst($this->camelCase($key));
                 $setter = 'set'.ucfirst($this->camelCase($key));
-                $value = uniqid();
+                $value = uniqid('', true);
                 $this->gateway->$setter($value);
 
                 // request should have matching property, with correct value
                 $request = $this->gateway->authorize();
-                $this->assertSame($value, $request->$getter());
+                self::assertSame($value, $request->$getter());
             }
+        } else {
+            $this->expectNotToPerformAssertions();
         }
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
-    public function testCompleteAuthorizeParameters()
+    public function testCompleteAuthorizeParameters(): void
     {
         if ($this->gateway->supportsCompleteAuthorize()) {
             foreach ($this->gateway->getDefaultParameters() as $key => $default) {
                 // set property on gateway
                 $getter = 'get'.ucfirst($this->camelCase($key));
                 $setter = 'set'.ucfirst($this->camelCase($key));
-                $value = uniqid();
+                $value = uniqid('', true);
                 $this->gateway->$setter($value);
 
                 // request should have matching property, with correct value
                 $request = $this->gateway->completeAuthorize();
-                $this->assertSame($value, $request->$getter());
+                self::assertSame($value, $request->$getter());
             }
+        } else {
+            $this->expectNotToPerformAssertions();
         }
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
-    public function testCaptureParameters()
+    public function testCaptureParameters(): void
     {
         if ($this->gateway->supportsCapture()) {
             foreach ($this->gateway->getDefaultParameters() as $key => $default) {
                 // set property on gateway
                 $getter = 'get'.ucfirst($this->camelCase($key));
                 $setter = 'set'.ucfirst($this->camelCase($key));
-                $value = uniqid();
+                $value = uniqid('', true);
                 $this->gateway->$setter($value);
 
                 // request should have matching property, with correct value
                 $request = $this->gateway->capture();
-                $this->assertSame($value, $request->$getter());
+                self::assertSame($value, $request->$getter());
             }
+        } else {
+            $this->expectNotToPerformAssertions();
         }
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
-    public function testPurchaseParameters()
+    public function testPurchaseParameters(): void
     {
         if ($this->gateway->supportsPurchase()) {
             foreach ($this->gateway->getDefaultParameters() as $key => $default) {
                 // set property on gateway
                 $getter = 'get'.ucfirst($this->camelCase($key));
                 $setter = 'set'.ucfirst($this->camelCase($key));
-                $value = uniqid();
+                $value = uniqid('', true);
                 $this->gateway->$setter($value);
 
                 // request should have matching property, with correct value
                 $request = $this->gateway->purchase();
-                $this->assertSame($value, $request->$getter());
+                self::assertSame($value, $request->$getter());
             }
+        } else {
+            $this->expectNotToPerformAssertions();
         }
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
-    public function testCompletePurchaseParameters()
+    public function testCompletePurchaseParameters(): void
     {
         if ($this->gateway->supportsCompletePurchase()) {
             foreach ($this->gateway->getDefaultParameters() as $key => $default) {
                 // set property on gateway
                 $getter = 'get'.ucfirst($this->camelCase($key));
                 $setter = 'set'.ucfirst($this->camelCase($key));
-                $value = uniqid();
+                $value = uniqid('', true);
                 $this->gateway->$setter($value);
 
                 // request should have matching property, with correct value
                 $request = $this->gateway->completePurchase();
-                $this->assertSame($value, $request->$getter());
+                self::assertSame($value, $request->$getter());
             }
+        } else {
+            $this->expectNotToPerformAssertions();
         }
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
-    public function testRefundParameters()
+    public function testRefundParameters(): void
     {
         if ($this->gateway->supportsRefund()) {
             foreach ($this->gateway->getDefaultParameters() as $key => $default) {
                 // set property on gateway
                 $getter = 'get'.ucfirst($this->camelCase($key));
                 $setter = 'set'.ucfirst($this->camelCase($key));
-                $value = uniqid();
+                $value = uniqid('', true);
                 $this->gateway->$setter($value);
 
                 // request should have matching property, with correct value
                 $request = $this->gateway->refund();
-                $this->assertSame($value, $request->$getter());
+                self::assertSame($value, $request->$getter());
             }
+        } else {
+            $this->expectNotToPerformAssertions();
         }
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
-    public function testVoidParameters()
+    public function testVoidParameters(): void
     {
         if ($this->gateway->supportsVoid()) {
             foreach ($this->gateway->getDefaultParameters() as $key => $default) {
                 // set property on gateway
                 $getter = 'get'.ucfirst($this->camelCase($key));
                 $setter = 'set'.ucfirst($this->camelCase($key));
-                $value = uniqid();
+                $value = uniqid('', true);
                 $this->gateway->$setter($value);
 
                 // request should have matching property, with correct value
                 $request = $this->gateway->void();
-                $this->assertSame($value, $request->$getter());
+                self::assertSame($value, $request->$getter());
             }
+        } else {
+            $this->expectNotToPerformAssertions();
         }
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
-    public function testCreateCardParameters()
+    public function testCreateCardParameters(): void
     {
         if ($this->gateway->supportsCreateCard()) {
             foreach ($this->gateway->getDefaultParameters() as $key => $default) {
                 // set property on gateway
                 $getter = 'get'.ucfirst($this->camelCase($key));
                 $setter = 'set'.ucfirst($this->camelCase($key));
-                $value = uniqid();
+                $value = uniqid('', true);
                 $this->gateway->$setter($value);
 
                 // request should have matching property, with correct value
                 $request = $this->gateway->createCard();
-                $this->assertSame($value, $request->$getter());
+                self::assertSame($value, $request->$getter());
             }
+        } else {
+            $this->expectNotToPerformAssertions();
         }
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
-    public function testDeleteCardParameters()
+    public function testDeleteCardParameters(): void
     {
         if ($this->gateway->supportsDeleteCard()) {
             foreach ($this->gateway->getDefaultParameters() as $key => $default) {
                 // set property on gateway
                 $getter = 'get'.ucfirst($this->camelCase($key));
                 $setter = 'set'.ucfirst($this->camelCase($key));
-                $value = uniqid();
+                $value = uniqid('', true);
                 $this->gateway->$setter($value);
 
                 // request should have matching property, with correct value
                 $request = $this->gateway->deleteCard();
-                $this->assertSame($value, $request->$getter());
+                self::assertSame($value, $request->$getter());
             }
+        } else {
+            $this->expectNotToPerformAssertions();
         }
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
-    public function testUpdateCardParameters()
+    public function testUpdateCardParameters(): void
     {
         if ($this->gateway->supportsUpdateCard()) {
             foreach ($this->gateway->getDefaultParameters() as $key => $default) {
                 // set property on gateway
                 $getter = 'get'.ucfirst($this->camelCase($key));
                 $setter = 'set'.ucfirst($this->camelCase($key));
-                $value = uniqid();
+                $value = uniqid('', true);
                 $this->gateway->$setter($value);
 
                 // request should have matching property, with correct value
                 $request = $this->gateway->updateCard();
-                $this->assertSame($value, $request->$getter());
+                self::assertSame($value, $request->$getter());
             }
+        } else {
+            $this->expectNotToPerformAssertions();
         }
     }
 }
