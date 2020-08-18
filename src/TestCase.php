@@ -8,10 +8,12 @@ use Omnipay\Common\Http\Client;
 use Omnipay\Common\Http\ClientInterface;
 use Omnipay\Common\Message\RequestInterface;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
+use Psr\Http\Message\RequestInterface as PsrRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use ReflectionObject;
 use Http\Mock\Client as MockClient;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
+use function GuzzleHttp\Psr7\parse_response;
 
 /**
  * Base class for all Omnipay tests
@@ -40,24 +42,23 @@ abstract class TestCase extends PHPUnitTestCase
      * @param string $str
      * @return string
      */
-    public function camelCase($str)
+    public function camelCase(string $str): string
     {
         return preg_replace_callback(
             '/_([a-z])/',
-            function ($match) {
+            static function ($match) {
                 return strtoupper($match[1]);
             },
             $str
         );
     }
 
-
     /**
      * Get all of the mocked requests
      *
-     * @return array
+     * @return PsrRequestInterface[]
      */
-    public function getMockedRequests()
+    public function getMockedRequests(): array
     {
         return $this->mockClient->getRequests();
     }
@@ -69,7 +70,7 @@ abstract class TestCase extends PHPUnitTestCase
      *
      * @return ResponseInterface
      */
-    public function getMockHttpResponse($path)
+    public function getMockHttpResponse(string $path): ResponseInterface
     {
         if ($path instanceof ResponseInterface) {
             return $path;
@@ -80,10 +81,10 @@ abstract class TestCase extends PHPUnitTestCase
 
         // if mock file doesn't exist, check parent directory
         if (!file_exists($dir.'/Mock/'.$path) && file_exists($dir.'/../Mock/'.$path)) {
-            return \GuzzleHttp\Psr7\parse_response(file_get_contents($dir.'/../Mock/'.$path));
+            return parse_response(file_get_contents($dir.'/../Mock/'.$path));
         }
 
-        return \GuzzleHttp\Psr7\parse_response(file_get_contents($dir.'/Mock/'.$path));
+        return parse_response(file_get_contents($dir.'/Mock/'.$path));
     }
 
     /**
@@ -100,7 +101,7 @@ abstract class TestCase extends PHPUnitTestCase
      *
      * @return void returns the created mock plugin
      */
-    public function setMockHttpResponse($paths)
+    public function setMockHttpResponse($paths): void
     {
         foreach ((array) $paths as $path) {
             $this->mockClient->addResponse($this->getMockHttpResponse($path));
@@ -110,15 +111,15 @@ abstract class TestCase extends PHPUnitTestCase
     /**
      * Helper method used by gateway test classes to generate a valid test credit card
      */
-    public function getValidCard()
+    public function getValidCard(): array
     {
-        return array(
+        return [
             'firstName' => 'Example',
             'lastName' => 'User',
             'number' => '4111111111111111',
-            'expiryMonth' => rand(1, 12),
-            'expiryYear' => gmdate('Y') + rand(1, 5),
-            'cvv' => rand(100, 999),
+            'expiryMonth' => mt_rand(1, 12),
+            'expiryYear' => gmdate('Y') + mt_rand(1, 5),
+            'cvv' => mt_rand(100, 999),
             'billingAddress1' => '123 Billing St',
             'billingAddress2' => 'Billsville',
             'billingCity' => 'Billstown',
@@ -133,10 +134,10 @@ abstract class TestCase extends PHPUnitTestCase
             'shippingState' => 'NY',
             'shippingCountry' => 'US',
             'shippingPhone' => '(555) 987-6543',
-        );
+        ];
     }
 
-    public function getMockRequest()
+    public function getMockRequest(): RequestInterface
     {
         if (null === $this->mockRequest) {
             $this->mockRequest = m::mock(RequestInterface::class);
@@ -145,7 +146,7 @@ abstract class TestCase extends PHPUnitTestCase
         return $this->mockRequest;
     }
 
-    public function getMockClient()
+    public function getMockClient(): MockClient
     {
         if (null === $this->mockClient) {
             $this->mockClient = new MockClient();
@@ -154,7 +155,7 @@ abstract class TestCase extends PHPUnitTestCase
         return $this->mockClient;
     }
 
-    public function getHttpClient()
+    public function getHttpClient(): ClientInterface
     {
         if (null === $this->httpClient) {
             $this->httpClient = new Client(
@@ -165,7 +166,7 @@ abstract class TestCase extends PHPUnitTestCase
         return $this->httpClient;
     }
 
-    public function getHttpRequest()
+    public function getHttpRequest(): HttpRequest
     {
         if (null === $this->httpRequest) {
             $this->httpRequest = new HttpRequest;
