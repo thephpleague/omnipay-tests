@@ -8,6 +8,7 @@ use Omnipay\Common\Http\Client;
 use Omnipay\Common\Http\ClientInterface;
 use Omnipay\Common\Message\RequestInterface;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
+use Psr\Http\Message\RequestInterface as PsrRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use ReflectionObject;
 use Http\Mock\Client as MockClient;
@@ -55,7 +56,7 @@ abstract class TestCase extends PHPUnitTestCase
     /**
      * Get all of the mocked requests
      *
-     * @return \Psr\Http\Message\RequestInterface[]
+     * @return PsrRequestInterface[]
      */
     public function getMockedRequests(): array
     {
