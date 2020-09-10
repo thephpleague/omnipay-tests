@@ -24,13 +24,18 @@
     },
     "require": {
         "php-http/mock-client": "^1.1",
-        "guzzlehttp/psr7": "^1",
-        "mockery/mockery": "^1",
-        "phpunit/phpunit": "^5.7|^6"
+        "php-http/guzzle6-adapter": "^1.1.1|^2"
     },
     "require-dev": {
         "omnipay/common": "^3",
-        "symfony/http-foundation": "^3|^4"
+        "phpunit/phpunit": "^5.7|^6|^7|^8|^9",
+        "mockery/mockery": "^1",
+        "symfony/http-foundation": "^3|^4|^5"
+    },
+    "suggest": {
+        "omnipay/common": "^3",
+        "phpunit/phpunit": "^6|^7|^8|^9",
+        "mockery/mockery": "^1"
     },
     "extra": {
         "branch-alias": {
