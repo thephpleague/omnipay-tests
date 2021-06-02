@@ -188,9 +188,6 @@ abstract class GatewayTestCase extends TestCase
         }
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
     public function testAuthorizeParameters()
     {
         if ($this->gateway->supportsAuthorize()) {
@@ -205,12 +202,11 @@ abstract class GatewayTestCase extends TestCase
                 $request = $this->gateway->authorize();
                 $this->assertSame($value, $request->$getter());
             }
+        } else {
+            $this->expectNotToPerformAssertions();
         }
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
     public function testCompleteAuthorizeParameters()
     {
         if ($this->gateway->supportsCompleteAuthorize()) {
@@ -225,12 +221,11 @@ abstract class GatewayTestCase extends TestCase
                 $request = $this->gateway->completeAuthorize();
                 $this->assertSame($value, $request->$getter());
             }
+        } else {
+            $this->expectNotToPerformAssertions();
         }
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
     public function testCaptureParameters()
     {
         if ($this->gateway->supportsCapture()) {
@@ -245,12 +240,11 @@ abstract class GatewayTestCase extends TestCase
                 $request = $this->gateway->capture();
                 $this->assertSame($value, $request->$getter());
             }
+        } else {
+            $this->expectNotToPerformAssertions();
         }
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
     public function testPurchaseParameters()
     {
         if ($this->gateway->supportsPurchase()) {
@@ -265,12 +259,11 @@ abstract class GatewayTestCase extends TestCase
                 $request = $this->gateway->purchase();
                 $this->assertSame($value, $request->$getter());
             }
+        } else {
+            $this->expectNotToPerformAssertions();
         }
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
     public function testCompletePurchaseParameters()
     {
         if ($this->gateway->supportsCompletePurchase()) {
@@ -285,12 +278,11 @@ abstract class GatewayTestCase extends TestCase
                 $request = $this->gateway->completePurchase();
                 $this->assertSame($value, $request->$getter());
             }
+        } else {
+            $this->expectNotToPerformAssertions();
         }
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
     public function testRefundParameters()
     {
         if ($this->gateway->supportsRefund()) {
@@ -305,12 +297,11 @@ abstract class GatewayTestCase extends TestCase
                 $request = $this->gateway->refund();
                 $this->assertSame($value, $request->$getter());
             }
+        } else {
+            $this->expectNotToPerformAssertions();
         }
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
     public function testVoidParameters()
     {
         if ($this->gateway->supportsVoid()) {
@@ -325,12 +316,11 @@ abstract class GatewayTestCase extends TestCase
                 $request = $this->gateway->void();
                 $this->assertSame($value, $request->$getter());
             }
+        } else {
+            $this->expectNotToPerformAssertions();
         }
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
     public function testCreateCardParameters()
     {
         if ($this->gateway->supportsCreateCard()) {
@@ -345,12 +335,11 @@ abstract class GatewayTestCase extends TestCase
                 $request = $this->gateway->createCard();
                 $this->assertSame($value, $request->$getter());
             }
+        } else {
+            $this->expectNotToPerformAssertions();
         }
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
     public function testDeleteCardParameters()
     {
         if ($this->gateway->supportsDeleteCard()) {
@@ -365,12 +354,11 @@ abstract class GatewayTestCase extends TestCase
                 $request = $this->gateway->deleteCard();
                 $this->assertSame($value, $request->$getter());
             }
+        } else {
+            $this->expectNotToPerformAssertions();
         }
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
     public function testUpdateCardParameters()
     {
         if ($this->gateway->supportsUpdateCard()) {
@@ -385,6 +373,8 @@ abstract class GatewayTestCase extends TestCase
                 $request = $this->gateway->updateCard();
                 $this->assertSame($value, $request->$getter());
             }
+        } else {
+            $this->expectNotToPerformAssertions();
         }
     }
 }
