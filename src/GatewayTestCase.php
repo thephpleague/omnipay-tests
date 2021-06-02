@@ -32,7 +32,7 @@ abstract class GatewayTestCase extends TestCase
     public function testGetDefaultParametersReturnsArray()
     {
         $settings = $this->gateway->getDefaultParameters();
-        $this->assertIsString($settings);
+        $this->assertIsArray($settings);
     }
 
     public function testDefaultParametersHaveMatchingMethods()
