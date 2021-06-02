@@ -41,7 +41,7 @@ abstract class GatewayTestCase extends TestCase
         foreach ($settings as $key => $default) {
             $getter = 'get'.ucfirst($this->camelCase($key));
             $setter = 'set'.ucfirst($this->camelCase($key));
-            $value = uniqid();
+            $value = uniqid('', true);
 
             $this->assertTrue(method_exists($this->gateway, $getter), "Gateway must implement $getter()");
             $this->assertTrue(method_exists($this->gateway, $setter), "Gateway must implement $setter()");
@@ -198,7 +198,7 @@ abstract class GatewayTestCase extends TestCase
                 // set property on gateway
                 $getter = 'get'.ucfirst($this->camelCase($key));
                 $setter = 'set'.ucfirst($this->camelCase($key));
-                $value = uniqid();
+                $value = uniqid('', true);
                 $this->gateway->$setter($value);
 
                 // request should have matching property, with correct value
@@ -218,7 +218,7 @@ abstract class GatewayTestCase extends TestCase
                 // set property on gateway
                 $getter = 'get'.ucfirst($this->camelCase($key));
                 $setter = 'set'.ucfirst($this->camelCase($key));
-                $value = uniqid();
+                $value = uniqid('', true);
                 $this->gateway->$setter($value);
 
                 // request should have matching property, with correct value
@@ -238,7 +238,7 @@ abstract class GatewayTestCase extends TestCase
                 // set property on gateway
                 $getter = 'get'.ucfirst($this->camelCase($key));
                 $setter = 'set'.ucfirst($this->camelCase($key));
-                $value = uniqid();
+                $value = uniqid('', true);
                 $this->gateway->$setter($value);
 
                 // request should have matching property, with correct value
@@ -258,7 +258,7 @@ abstract class GatewayTestCase extends TestCase
                 // set property on gateway
                 $getter = 'get'.ucfirst($this->camelCase($key));
                 $setter = 'set'.ucfirst($this->camelCase($key));
-                $value = uniqid();
+                $value = uniqid('', true);
                 $this->gateway->$setter($value);
 
                 // request should have matching property, with correct value
@@ -278,7 +278,7 @@ abstract class GatewayTestCase extends TestCase
                 // set property on gateway
                 $getter = 'get'.ucfirst($this->camelCase($key));
                 $setter = 'set'.ucfirst($this->camelCase($key));
-                $value = uniqid();
+                $value = uniqid('', true);
                 $this->gateway->$setter($value);
 
                 // request should have matching property, with correct value
@@ -298,7 +298,7 @@ abstract class GatewayTestCase extends TestCase
                 // set property on gateway
                 $getter = 'get'.ucfirst($this->camelCase($key));
                 $setter = 'set'.ucfirst($this->camelCase($key));
-                $value = uniqid();
+                $value = uniqid('', true);
                 $this->gateway->$setter($value);
 
                 // request should have matching property, with correct value
@@ -318,7 +318,7 @@ abstract class GatewayTestCase extends TestCase
                 // set property on gateway
                 $getter = 'get'.ucfirst($this->camelCase($key));
                 $setter = 'set'.ucfirst($this->camelCase($key));
-                $value = uniqid();
+                $value = uniqid('', true);
                 $this->gateway->$setter($value);
 
                 // request should have matching property, with correct value
@@ -338,7 +338,7 @@ abstract class GatewayTestCase extends TestCase
                 // set property on gateway
                 $getter = 'get'.ucfirst($this->camelCase($key));
                 $setter = 'set'.ucfirst($this->camelCase($key));
-                $value = uniqid();
+                $value = uniqid('', true);
                 $this->gateway->$setter($value);
 
                 // request should have matching property, with correct value
@@ -358,7 +358,7 @@ abstract class GatewayTestCase extends TestCase
                 // set property on gateway
                 $getter = 'get'.ucfirst($this->camelCase($key));
                 $setter = 'set'.ucfirst($this->camelCase($key));
-                $value = uniqid();
+                $value = uniqid('', true);
                 $this->gateway->$setter($value);
 
                 // request should have matching property, with correct value
@@ -378,7 +378,7 @@ abstract class GatewayTestCase extends TestCase
                 // set property on gateway
                 $getter = 'get'.ucfirst($this->camelCase($key));
                 $setter = 'set'.ucfirst($this->camelCase($key));
-                $value = uniqid();
+                $value = uniqid('', true);
                 $this->gateway->$setter($value);
 
                 // request should have matching property, with correct value
