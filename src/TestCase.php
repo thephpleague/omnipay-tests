@@ -2,6 +2,8 @@
 
 namespace Omnipay\Tests;
 
+use Http\Discovery\HttpClientDiscovery;
+use Http\Discovery\Strategy\MockClientStrategy;
 use Mockery as m;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Omnipay\Common\Http\Client;
@@ -33,6 +35,13 @@ abstract class TestCase extends PHPUnitTestCase
 
     /** @var HttpRequest */
     private $httpRequest;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        HttpClientDiscovery::prependStrategy(MockClientStrategy::class);
+    }
 
     /**
      * Converts a string to camel case
