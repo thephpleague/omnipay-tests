@@ -24,7 +24,7 @@
     },
     "require": {
         "php": "^7.2|^8",
-        "php-http/discovery": "^1.13",
+        "php-http/discovery": "^1.14",
         "php-http/mock-client": "^1.1",
         "guzzlehttp/psr7": "^1",
         "mockery/mockery": "^1.3",
